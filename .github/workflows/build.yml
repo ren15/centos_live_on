@@ -1,0 +1,52 @@
+name: ci
+
+on: push
+
+env:
+  mold_version: "1.2.0"
+
+jobs:
+
+  test_deb:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
+            "ubuntu:20.04",
+            "ubuntu:21.10",
+            "debian:11",
+            "debian:testing",
+            "debian:unstable",
+          ]
+    container:
+      image: ${{ matrix.container_image }}
+    steps:
+    - name: Download from github release
+      run: |
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update && apt-get install -y wget tar curl
+        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+        mold --version
+
+  test_rpm:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
+            "fedora:35",
+            "centos:7"
+          ]
+    container:
+      image: ${{ matrix.container_image }}
+    steps:
+    - name: Download from github release
+      run: |
+        yum install -y tar wget openssl-devel curl
+        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+        mold --version
