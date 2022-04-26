@@ -8,7 +8,6 @@ env:
 jobs:
 
   test_deb:
-    needs: [build]
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -16,10 +15,7 @@ jobs:
         container_image:
           [
             "ubuntu:20.04",
-            "ubuntu:21.10",
             "debian:11",
-            "debian:testing",
-            "debian:unstable",
           ]
     container:
       image: ${{ matrix.container_image }}
@@ -32,7 +28,6 @@ jobs:
         mold --version
 
   test_rpm:
-    needs: [build]
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
