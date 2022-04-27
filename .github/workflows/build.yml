@@ -26,7 +26,7 @@ jobs:
         name: lib-package
         path: lib-package.tar.gz
 
-  test_deb:
+  test:
     runs-on: ubuntu-20.04
     needs: ["build"]
     strategy:
@@ -40,39 +40,11 @@ jobs:
             "debian:10",
             "debian:9",
             "debian:8",
-          ]
-    container:
-      image: ${{ matrix.container_image }}
-
-    steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: lib-package
-    - name: Download from github release
-      run: |
-        apt update && apt install -y tar wget
-        wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
-        tar xvf mold.tar.gz
-        ls 
-        tar xvf lib-package.tar.gz
-        ls -lah package
-        package/ld-linux-x86-64.so.2 --library-path ${PWD}/package ./mold --version
-
-  test_rpm:
-    runs-on: ubuntu-20.04
-    needs: ["build"]
-    strategy:
-      fail-fast: false
-      matrix:
-        container_image:
-          [
             "centos:7",
             "centos:6",
             "rockylinux:8",
             "fedora:35",
           ]
-    container:
-      image: ${{ matrix.container_image }}
 
     steps:
     - uses: actions/download-artifact@v2
@@ -80,10 +52,9 @@ jobs:
         name: lib-package
     - name: Download from github release
       run: |
-        yum install -y tar wget 
         wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
         tar xvf mold.tar.gz
         ls 
         tar xvf lib-package.tar.gz
         ls -lah package
-        package/ld-linux-x86-64.so.2 --library-path ${PWD}/package ./mold --version
+        image_name="${{ matrix.container_image }}" make test_gen

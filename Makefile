@@ -17,3 +17,10 @@ build:
 		-v ${PWD}:/app -w /app \
 		ubuntu:20.04 \
 		bash scripts/create_package.sh
+
+test_gen:
+	sudo docker run --rm \
+		-u $(id -u):$(id -g) \
+		-v ${PWD}:/app -w /app \
+		${image_name} \
+		bash -c "package/ld-linux-x86-64.so.2 --library-path /app/package ./mold --version"
