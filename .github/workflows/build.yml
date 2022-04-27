@@ -65,8 +65,9 @@ jobs:
     - name: Download from github release
       run: |
         yum install -y tar wget openssl-devel curl
-        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+        wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
+        tar xvf mold.tar.gz
         ls 
         tar xvf lib-package.tar.gz
         ls -lah package
-        package/ld-linux-x86-64.so.2 --library-path ${PWD}/package mold --version
+        package/ld-linux-x86-64.so.2 --library-path ${PWD}/package ./mold --version
