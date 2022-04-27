@@ -81,5 +81,4 @@ jobs:
         ls 
         tar xvf lib-package.tar.gz
         ls -lah package
-        which mold
         package/ld-linux-x86-64.so.2 --library-path ${PWD}/package mold --version
