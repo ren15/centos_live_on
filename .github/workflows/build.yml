@@ -31,10 +31,12 @@ jobs:
         strace -e trace=open,close -o strace_output.txt -y mold --version
         bash scripts/regex_extract.sh strace_output.txt
         ls package
+        tar cvf lib-package.tar.gz package
+
     - uses: actions/upload-artifact@v2
       with:
         name: lib-package
-        path: package
+        path: lib-package.tar.gz
 
   test_rpm:
     runs-on: ubuntu-20.04
@@ -57,6 +59,7 @@ jobs:
 
   test_centos7:
     runs-on: ubuntu-20.04
+    needs: ["test_deb"]
     strategy:
       fail-fast: false
       matrix:
@@ -78,5 +81,6 @@ jobs:
         rpm -i openssl11-libs-1.1.1k-3.el7.x86_64.rpm
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         ls 
+        tar xvf lib-package.tar.gz
         ls package
         mold --version
