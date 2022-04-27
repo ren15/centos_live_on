@@ -64,7 +64,7 @@ jobs:
       matrix:
         container_image:
           [
-            "centos:7"
+            "centos:7",
             "rockylinux:8",
           ]
     container:
