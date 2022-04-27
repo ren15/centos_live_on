@@ -25,7 +25,7 @@ jobs:
 
     - name: Download from github release
       run: |
-        bash scripts/download.sh
+        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         bash scripts/create_package.sh
 
 
