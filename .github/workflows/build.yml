@@ -26,7 +26,10 @@ jobs:
     - name: Download from github release
       run: |
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
-        bash scripts/create_package.sh
+        wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
+        tar xvf mold.tar.gz
+        make build
+        make test
 
 
     - uses: actions/upload-artifact@v2
