@@ -23,9 +23,9 @@ jobs:
     - name: Download from github release
       run: |
         export DEBIAN_FRONTEND=noninteractive
-        apt-get update && apt-get install -y wget tar curl
+        apt-get update && apt-get install -y wget tar curl strace
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
-        mold --version
+        strace -e trace=open,close -y mold --version
 
   test_rpm:
     runs-on: ubuntu-20.04
@@ -45,6 +45,18 @@ jobs:
         yum install -y tar wget openssl-devel curl
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         mold --version
+
+  prepare_for_centos7:
+    runs-on: ubuntu-20.04
+    container:
+      image: ubuntu:20.04
+    steps:
+    - name: Download libraries
+      run: |
+        apt update
+
+
+
 
   test_centos7:
     runs-on: ubuntu-20.04
