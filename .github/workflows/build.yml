@@ -80,6 +80,6 @@ jobs:
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         ls 
         tar xvf lib-package.tar.gz
-        ls package
-        ldd mold
+        ls -lah package
+        which mold
         package/ld-linux-x86-64.so.2 --library-path ${PWD}/package mold --version
