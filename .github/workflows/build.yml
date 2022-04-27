@@ -77,8 +77,6 @@ jobs:
     - name: Download from github release
       run: |
         yum install -y tar wget openssl-devel curl
-        wget -c https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/o/openssl11-libs-1.1.1k-3.el7.x86_64.rpm
-        rpm -i openssl11-libs-1.1.1k-3.el7.x86_64.rpm
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         ls 
         tar xvf lib-package.tar.gz
