@@ -35,6 +35,24 @@ jobs:
         container_image:
           [
             "fedora:35",
+            "rockylinux:8",
+          ]
+    container:
+      image: ${{ matrix.container_image }}
+    steps:
+    - name: Download from github release
+      run: |
+        yum install -y tar wget openssl-devel curl
+        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+        mold --version
+
+  test_centos7:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
             "centos:7"
           ]
     container:
