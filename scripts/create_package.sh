@@ -1,7 +1,7 @@
 set -xe
 
 export DEBIAN_FRONTEND=noninteractive
-apt-get update && apt-get install -y wget tar curl strace
+apt-get update && apt-get install -y openssl-devel
 
 package_dir=package
 mkdir -p ${package_dir} && rm -rf ${package_dir}/*

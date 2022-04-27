@@ -25,6 +25,8 @@ jobs:
 
     - name: Download from github release
       run: |
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update && apt-get install -y wget tar curl
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
         wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
         tar xvf mold.tar.gz
