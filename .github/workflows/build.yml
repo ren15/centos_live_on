@@ -28,6 +28,7 @@ jobs:
         export DEBIAN_FRONTEND=noninteractive
         apt-get update && apt-get install -y wget tar curl strace
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
+        ldd mold
         strace -e trace=open,close -o strace_output.txt -y mold --version
         bash scripts/regex_extract.sh strace_output.txt
         ls package
@@ -81,4 +82,5 @@ jobs:
         ls 
         tar xvf lib-package.tar.gz
         ls package
+        ln -s package/libstdc++.so.6.0.29 package/libstdc++.so.6
         package/ld-linux-x86-64.so.2 --library-path ${PWD}/package mold --version
