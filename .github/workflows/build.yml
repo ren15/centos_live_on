@@ -7,7 +7,7 @@ env:
 
 jobs:
 
-  test_deb:
+  build:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout
@@ -26,34 +26,17 @@ jobs:
         name: lib-package
         path: lib-package.tar.gz
 
-  test_rpm:
+  test_deb:
     runs-on: ubuntu-20.04
+    needs: ["build"]
     strategy:
       fail-fast: false
       matrix:
         container_image:
           [
-            "fedora:35",
-          ]
-    container:
-      image: ${{ matrix.container_image }}
-    steps:
-    - name: Download from github release
-      run: |
-        yum install -y tar wget openssl-devel curl
-        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
-        mold --version
-
-  test_centos7:
-    runs-on: ubuntu-20.04
-    needs: ["test_deb"]
-    strategy:
-      fail-fast: false
-      matrix:
-        container_image:
-          [
-            "centos:7",
-            "rockylinux:8",
+            "ubuntu:20.04",
+            "ubuntu:16.04",
+            "debian:9",
           ]
     container:
       image: ${{ matrix.container_image }}
@@ -64,7 +47,36 @@ jobs:
         name: lib-package
     - name: Download from github release
       run: |
-        yum install -y tar wget openssl-devel curl
+        apt update && apt install -y tar wget
+        wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
+        tar xvf mold.tar.gz
+        ls 
+        tar xvf lib-package.tar.gz
+        ls -lah package
+        package/ld-linux-x86-64.so.2 --library-path ${PWD}/package ./mold --version
+
+  test_rpm:
+    runs-on: ubuntu-20.04
+    needs: ["build"]
+    strategy:
+      fail-fast: false
+      matrix:
+        container_image:
+          [
+            "centos:7",
+            "rockylinux:8",
+            "fedora:35",
+          ]
+    container:
+      image: ${{ matrix.container_image }}
+
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: lib-package
+    - name: Download from github release
+      run: |
+        yum install -y tar wget 
         wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
         tar xvf mold.tar.gz
         ls 
