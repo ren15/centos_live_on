@@ -35,15 +35,13 @@ jobs:
         container_image:
           [
             "ubuntu:20.04",
-            "ubuntu:16.04",
             "ubuntu:14.04",
-            "debian:10",
-            "debian:9",
             "debian:8",
             "centos:7",
-            "centos:6",
             "rockylinux:8",
             "fedora:35",
+            "alpine:latest",
+            "busybox:latest",
           ]
 
     steps:

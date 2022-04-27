@@ -23,4 +23,4 @@ test_gen:
 		-u $(id -u):$(id -g) \
 		-v ${PWD}:/app -w /app \
 		${image_name} \
-		bash -c "package/ld-linux-x86-64.so.2 --library-path /app/package ./mold --version"
+		sh -c "package/ld-linux-x86-64.so.2 --library-path /app/package ./mold --version"
