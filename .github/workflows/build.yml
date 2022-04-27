@@ -25,7 +25,9 @@ jobs:
         export DEBIAN_FRONTEND=noninteractive
         apt-get update && apt-get install -y wget tar curl strace
         curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
-        strace -e trace=open,close -y mold --version
+        strace -e trace=open,close -o strace_output.txt -y mold --version
+        bash scripts/regex_extract.sh test/strace_example.txt
+        ls package
 
   test_rpm:
     runs-on: ubuntu-20.04

@@ -1,0 +1,8 @@
+close(3</etc/ld.so.cache>)              = 0
+close(3</usr/lib/libgcc_s.so.1>)        = 0
+close(3</usr/lib/librt.so.1>)           = 0
+close(3</usr/lib/libpthread.so.0>)      = 0
+close(3</usr/lib/libdl.so.2>)           = 0
+close(3</usr/lib/libc.so.6>)            = 0
+close(3</proc/1252835/maps>)            = 0
++++ exited with 101 +++
