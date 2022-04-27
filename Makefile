@@ -9,9 +9,10 @@ test:
 		-v ${PWD}:/app -w /app \
 		centos:7 \
 		bash -c "package/ld-linux-x86-64.so.2 --library-path /app/package ./mold --version"
-test_i:
+build_package:
 	sudo podman run --rm -it \
+		--privileged \
 		-u $(id -u):$(id -g) \
 		-v ${PWD}:/app -w /app \
-		centos:7 \
+		ubuntu:20.04 \
 		bash 

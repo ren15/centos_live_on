@@ -25,13 +25,9 @@ jobs:
 
     - name: Download from github release
       run: |
-        export DEBIAN_FRONTEND=noninteractive
-        apt-get update && apt-get install -y wget tar curl strace
-        curl -fsSL https://raw.githubusercontent.com/ren15/mold_ci/HEAD/install.sh | bash
-        strace -e trace=open,close -o strace_output.txt -y mold --version
-        bash scripts/regex_extract.sh strace_output.txt
-        ls package
-        tar cvf lib-package.tar.gz package
+        bash scripts/download.sh
+        bash scripts/create_package.sh
+
 
     - uses: actions/upload-artifact@v2
       with:
