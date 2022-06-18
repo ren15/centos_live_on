@@ -13,12 +13,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Download from github release
+    - name: Download from Github release
       run: |
         wget -c -q https://github.com/ren15/mold_ci/releases/download/latest/mold.tar.gz
         tar xvf mold.tar.gz
         make build
-        make test
+        image_name="centos:7" make test
 
 
     - uses: actions/upload-artifact@v2
@@ -58,4 +58,4 @@ jobs:
         ls 
         tar xvf lib-package.tar.gz
         ls -lah package
-        image_name="${{ matrix.container_image }}" make test_gen
+        image_name="${{ matrix.container_image }}" make test
