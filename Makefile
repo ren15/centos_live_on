@@ -4,7 +4,7 @@ strace:
 	strace -e trace=open,close -o strace_output.txt -y mold --version
 
 build:
-	sudo docker run --rm \
+	docker run --rm \
 		--privileged \
 		-u $(id -u):$(id -g) \
 		-v ${PWD}:/app -w /app \
@@ -12,7 +12,7 @@ build:
 		bash scripts/create_package.sh
 
 test:
-	sudo docker run --rm \
+	docker run --rm \
 		-u $(id -u):$(id -g) \
 		-v ${PWD}:/app -w /app \
 		${image_name} \
